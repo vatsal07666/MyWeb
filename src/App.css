@@ -1,38 +1,173 @@
-.App {
-  text-align: center;
+*{
+    margin: 0;
+    padding: 0;
+    font-family: Arial, Helvetica, sans-serif;
+    letter-spacing: 0.1cqmin;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+/* ---------------- Login / Register Page CSS --------------- */
+/*---------- Login CSS ----------*/
+.login-container {
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: linear-gradient(135deg, #0f172a, #1e293b);
+    overflow: hidden;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+.login-box {
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+#login-username, #login-password {
+    width: 100%;
+    padding: 10px;
+    margin-top: 6px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 16px;
+    box-sizing: border-box;
+    transition: 0.3s ease-in-out;
+}
+#login-username:hover, #login-password:hover{
+    border-color: #2563eb;
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.2);
 }
 
-.App-link {
-  color: #61dafb;
+.login-box label{
+  font-weight: bold;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+/*---------- Register CSS ----------*/
+.register-container {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background: linear-gradient(135deg, #0f172a, #1e293b);
+    overflow: hidden;
+}
+
+.register-box {
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+}
+
+#register-username, #register-email, #register-password {
+    width: 100%;
+    padding: 10px;
+    margin-top: 5px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 16px;
+    box-sizing: border-box;
+    transition: 0.3s ease-in-out;
+}
+#register-username:hover, #register-email:hover, #register-password:hover{
+    border-color: #2563eb;
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.2);
+}
+
+.register-box label{
+  font-weight: bold;
+}
+
+.router-link {
+    text-decoration: none;
+    color: #2563eb;
+    font-weight: 600;
+    transition: 0.3s ease-in-out;
+}
+
+.router-link:hover{
+    background: linear-gradient(135deg, #2563eb, #1e40af);
+    color: #fff;
+    padding: 5px;
+    border-radius: 5px;
+}
+
+.login-box .show-hide-button, .register-box .show-hide-button{
+    position: absolute;
+    background-color: transparent;
+    color: #1e293b;
+    font-size: larger;
+    right: 5%;
+    top: 55%;
+    padding: 0;
+}
+.login-box .show-hide-button:hover, .register-box .show-hide-button:hover{
+    background-color: transparent;
+}
+
+/* ---------------- Drawer Pages CSS --------------- */
+/*---------- Product File CSS ----------*/
+#productName, #sku, #category, #supplier, #stock, #costPrice, #sellingPrice, #search{
+    padding: 12px 14px;
+    border: 1px solid;
+    border-radius: 10px;
+    font-family: sans-serif;
+    font-size: small;
+    letter-spacing: 0.1cqmin;
+}
+
+label[for="productName"], label[for="sku"], label[for="category"], label[for="supplier"], label[for="stock"], 
+label[for="costPrice"], label[for="sellingPrice"]{
+    letter-spacing: 0.1cqmin;
+    font-weight: 600;
+}
+
+/*---------- Category File CSS ----------*/
+#categoryName, #description, #status{
+    padding: 12px 14px;
+    border: 1px solid;
+    border-radius: 10px;
+    font-family: sans-serif;
+    font-size: small;
+    letter-spacing: 0.1cqmin;
+}
+
+label[for="categoryName"], label[for="description"], label[for="status"]{
+    letter-spacing: 0.1cqmin;
+    font-weight: 600;
+}
+
+#alert-dialog-title{
+    font-size: large;
+}
+
+/*---------- Supplier File CSS ----------*/
+#supplierName, #contactPerson, #email, #phone, #address{
+    padding: 12px 14px;
+    border: 1px solid;
+    border-radius: 10px;
+    font-family: sans-serif;
+    font-size: small;
+    letter-spacing: 0.1cqmin;
+}
+
+label[for="supplierName"], label[for="contactPerson"], label[for="email"], label[for="phone"],
+label[for="address"]{
+    letter-spacing: 0.1cqmin;
+    font-weight: 600;
+}
+
+/*---------- Sales File CSS ----------*/
+#customer, #mobile, #paymentMethod, #paymentStatus, #date{
+    padding: 12px 14px;
+    border: 1px solid;
+    border-radius: 10px;
+    font-family: sans-serif;
+    font-size: small;
+    letter-spacing: 0.1cqmin;
+}
+
+label[for="customer"], label[for="mobile"], label[for="paymentMethod"], label[for="paymentStatus"],
+label[for="date"]{
+    letter-spacing: 0.1cqmin;
+    font-weight: 600;
 }

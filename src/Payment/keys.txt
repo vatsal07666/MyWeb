@@ -1,0 +1,7 @@
+test key id		- 	rzp_test_SEIgekUY4O2ZUn
+
+test key secret 	- 	gd6cGVhcCQC2b1eiag7a9o4z
+
+
+Card    -   6522940886229049
+OTP     -   123456
