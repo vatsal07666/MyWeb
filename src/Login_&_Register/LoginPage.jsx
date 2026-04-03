@@ -28,28 +28,53 @@ const LoginPage = () => {
 
     const token = "vZt3CGeByg2P1RDS";
 
-    const postItem = (values) => {
+    const postItem = (values, resetForm) => {
+        const initializeAdmin = () => {
+            const users = JSON.parse(localStorage.getItem("users")) || [];
+            const adminExists = users.some((u) => u.username === "admin");
+            if (!adminExists) {
+                users.push({
+                    username: "admin",
+                    password: "Admin@666",
+                    email: "admin@example.com",
+                    role: "admin",
+                });
+                localStorage.setItem("users", JSON.stringify(users));
+            }
+        };
+
+        initializeAdmin();
+        
         const data = {username: values.username, password: values.password}
 
         axios.post("https://generateapi.techsnack.online/api/login", data, {
             headers: {Authorization: token, "Content-Type": "application/json" }
         })
         .then((res) => {
-            console.log("/* Login Data */");
-            console.log("POST response: ", res.data);
-           // Save auth token
-            localStorage.setItem("authToken", res.data.token);
+            if(res.status === 200 || res.status === 201){
+                console.log("/* Login Data */");
+                console.log("POST response: ", res.data);
 
-            // Save role
-            const role = res.data.role || 
-                (values.username === "admin" && values.password === "Admin@666" ? "admin" : "user");
-            localStorage.setItem("role", role);
+                // Get registered users from localStorage
+                const users = JSON.parse(localStorage.getItem("users")) || [];
+                const user = users.find(
+                    (u) => u.username === values.username && u.password === values.password
+                );
 
-            ShowSnackbar("Login Successful !", "success");
+                if (user) {
+                    // Successful login
+                    localStorage.setItem("authToken", "demo-token"); // fake token
+                    localStorage.setItem("role", user.role || "user");
+                    ShowSnackbar("Login Successful !", "success");
 
-            // Redirect based on role
-            if (role === "admin") history.push("/admin");
-            else history.push("/");
+                    resetForm();
+                    // Redirect based on role
+                    if (user.role === "admin") history.push("/admin");
+                    else history.push("/");
+                } else {
+                    ShowSnackbar("Username or Password not Exists !", "info");
+                }
+            }
         })
         .catch((err) => {
             console.error("POST error: ", err);
@@ -58,8 +83,7 @@ const LoginPage = () => {
     }
 
     const handleSubmit = (values, { resetForm }) => {
-        postItem(values);
-        resetForm();
+        postItem(values, resetForm);
     }
 
     return(
