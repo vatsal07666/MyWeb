@@ -52,16 +52,16 @@ const LoginPage = () => {
         })
         .then((res) => {
             if(res.status === 200 || res.status === 201){
-                console.log("/* Login Data */");
-                console.log("POST response: ", res.data);
-
                 // Get registered users from localStorage
                 const users = JSON.parse(localStorage.getItem("users")) || [];
                 const user = users.find(
                     (u) => u.username === values.username && u.password === values.password
                 );
-
+                
                 if (user) {
+                    console.log("/* Login Data */");
+                    console.log("POST response: ", res.data);
+                    
                     // Successful login
                     localStorage.setItem("authToken", "demo-token"); // fake token
                     localStorage.setItem("role", user.role || "user");
@@ -134,8 +134,8 @@ const LoginPage = () => {
                                 Log In
                             </Button>
 
-                            <Box sx={{ mt: 3, display:"flex", justifyContent: "center", 
-                                    alignItems: "center", gap: 1, flexWrap: "wrap"
+                            <Box sx={{ mt: 3, display:"flex", justifyContent: "center", alignItems: "center", 
+                                    gap: 1, flexWrap: "wrap"
                                 }}
                             >
                                 <Typography variant="body2">

@@ -35,27 +35,28 @@ const RegisterPage = () => {
             headers: { Authorization: token, "Content-Type": "application/json" }
         })
         .then((res) => {
-            console.log("/* Register Data */");
             if(res.status === 200 || res.status === 204){
-                console.log("POST response: ", res.data);
-
                 // Get existing users from localStorage
                 const users = JSON.parse(localStorage.getItem("users")) || [];
-
+                
                 // Check if username already exists
                 const userExists = users.some((u) => u.username === values.username);
+
                 if (userExists) {
-                    ShowSnackbar("Username already exists!", "error");
-                    return;
+                    if(values.username === "admin") ShowSnackbar("Cannot Use Username admin !", "info");
+                    else ShowSnackbar("Username already exists!", "error");
+                } else {
+                    console.log("/* Register Data */");
+                    console.log("POST response: ", res.data);
+
+                    // Add new user
+                    users.push({ ...values, role: "user" });
+                    localStorage.setItem("users", JSON.stringify(users));
+    
+                    resetForm();
+                    history.push("/log-in");
+                    ShowSnackbar("Account Created Successfully!", "success");
                 }
-
-                // Add new user
-                users.push({ ...values, role: "user" });
-                localStorage.setItem("users", JSON.stringify(users));
-
-                resetForm();
-                history.push("/log-in");
-                ShowSnackbar("Account Created Successfully!", "success");
             }
         })
         .catch((err) => {
