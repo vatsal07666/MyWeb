@@ -11,7 +11,7 @@ export const ContextProvider = ({children}) => {
     const [showPassword, setShowPassword] = useState(false);
 
     // Tokens
-    const productToken = "w4AkMdTjMm7CLvTY";
+    const productToken = "DocAKBFPpGh4l7vo";
     const categoryToken = "y5japrtJDM9NkJjU";
     const supplierToken = "6jA4ILnp672uVwAw";
 

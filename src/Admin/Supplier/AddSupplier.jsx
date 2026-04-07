@@ -18,6 +18,7 @@ import { addSupplier, deleteSupplier, resetDeleteState, resetFormValues, resetUI
 } from './SupplierSlice';
 import { NavLink } from 'react-router-dom/cjs/react-router-dom';
 import { MdOutlineViewInAr } from 'react-icons/md';
+import LocalShippingIcon from '@mui/icons-material/LocalShipping';
 
 const AddSupplier = () => {
     const { list: suppliers = [], formValues, editId, openForm, deleteOpen, deleteId, searchItem, 
@@ -480,7 +481,26 @@ const AddSupplier = () => {
                                     )
                                 )) : (
                                     <TableRow>
-                                        <TableCell colSpan={7} align="center">No Product Data Found</TableCell>
+                                        <TableCell colSpan={7}>
+                                            <Box sx={{ width: "100%", display: "flex", flexDirection: "column",
+                                                    alignItems: "center", justifyContent: "center", py: 10, textAlign: "center",
+                                                    color: "#64748B"
+                                                }} 
+                                            >
+                                                {/* Icon */}
+                                                <LocalShippingIcon sx={{ fontSize: 100, color: "#cbd5e1", mb: 2 }} />
+
+                                                {/* Title */}
+                                                <Typography sx={{ fontSize: "22px", fontWeight: 600, color: "#1e293b" }} >
+                                                    No Suppliers Found
+                                                </Typography>
+
+                                                {/* Subtitle */}
+                                                <Typography sx={{ mt: 1, fontSize: 14 }}>
+                                                    there aren’t any Supplier added yet.
+                                                </Typography>
+                                            </Box>
+                                        </TableCell>
                                     </TableRow>
                                 )}
                             </TableBody>

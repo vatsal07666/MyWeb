@@ -2,7 +2,7 @@ import React from 'react'
 import { Box, Button, Container, Typography } from '@mui/material';
 import { Link } from 'react-router-dom';
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
-import image from "../Images/Art_Image.png";
+import image from "../../Images/Art_Image.png";
 
 const HomePage = () => {
     return (
@@ -13,15 +13,15 @@ const HomePage = () => {
                 }}
             >
                 <Container maxWidth="lg">
-                    <Box sx={{display: "flex", flexDirection: "column", alignItems: "start", color: "#1e293b", 
-                            gap: 3
+                    <Box sx={{display: "flex", flexDirection: "column", alignItems: { xs: "center", sm: "start"}, 
+                            color: "#1e293b", gap: 3
                         }}
                     >
-                        <Box sx={{display: "flex", flexDirection: "column"}}>
-                            <Typography component={"span"} sx={{fontSize: {xs: "27px", sm: "45px"}}}> 
+                        <Box sx={{display: "flex", flexDirection: "column", textAlign: {xs: "center", sm: "start"}}}>
+                            <Typography component={"span"} sx={{ fontSize: {xs: "27px", sm: "45px"}, fontWeight: 600}}> 
                                 Premium Lifestyle Collection
                             </Typography>
-                            <Typography component={"span"} sx={{fontSize: {xs: "27px", sm: "20px"}}}>
+                            <Typography component={"span"} sx={{ fontSize: {xs: "17px", sm: "20px"}}}>
                                 Discover curated products designed for modern living.
                             </Typography>
                         </Box>

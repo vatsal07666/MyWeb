@@ -7,11 +7,8 @@ import { Box, Button, Card, CardContent, CircularProgress, Dialog, DialogActions
 import { IoMdAdd, IoMdRefresh } from 'react-icons/io'
 import { useDispatch, useSelector } from 'react-redux'
 import { setProduct, addProduct, deleteProduct, updateProduct, setDeleteId, setDeleteOpen, setEditId, 
-    setLoading, setOpenForm, setSearchItem, resetDeleteState, resetUIState,
-    resetFormValues,
-    setFormValues,
-    setPreview,
-    resetPreview,
+    setLoading, setOpenForm, setSearchItem, resetDeleteState, resetUIState, resetFormValues, setFormValues,
+    setPreview, resetPreview,
 } from './ProductSlice'
 import { useSnackbar } from '../../Context/SnackbarContext'
 import { DataContext } from '../../Context/ContextProvider'
@@ -22,6 +19,7 @@ import axios from 'axios';
 import SearchIcon from '@mui/icons-material/Search';
 import { NavLink } from 'react-router-dom/cjs/react-router-dom';
 import { MdOutlineViewInAr } from "react-icons/md";
+import Inventory2OutlinedIcon from '@mui/icons-material/Inventory2Outlined';
 
 const AddProduct = () => {
     const { list: products = [], formValues, editId, openForm, deleteOpen, deleteId, searchItem, 
@@ -481,7 +479,8 @@ const AddProduct = () => {
                                     filteredProduct.map((item, index) => (
                                         <TableRow key={item._id ?? index}
                                             sx={{ backgroundColor: index % 2 === 0 ? "#f9f9f9" : "#fff",
-                                                "&:hover": { backgroundColor: "#e9f5fd" }, transition: "all 0.3s ease"
+                                                "&:hover": { backgroundColor: "#e9f5fd" }, 
+                                                transition: "all 0.3s ease"
                                             }}
                                         >
                                             <TableCell>{index + 1}</TableCell>
@@ -489,19 +488,17 @@ const AddProduct = () => {
                                                 {item.productImage && (
                                                     <img src={item.productImage} alt={item.productName}
                                                         style={{ width: 50, height: 50, objectFit: "contain",
-                                                            borderRadius: 6
+                                                            borderRadius: 6, flexShrink: 0
                                                         }}
                                                     />
                                                 )}
-                                                <Typography component={"span"} 
-                                                    sx={{width: 50, height: 50, display: "flex", 
-                                                        alignItems: "center"
-                                                    }}
-                                                >
-                                                    {item.productName}
-                                                </Typography>
+
+                                                <Tooltip title={item.productName}>
+                                                    <Typography component={"span"}> 
+                                                        {item.productName} 
+                                                    </Typography>
+                                                </Tooltip>
                                             </TableCell>
-                                            {/* <TableCell>{item.productName}</TableCell> */}
                                             <TableCell>{item.sku}</TableCell>
                                             <TableCell>{item.category}</TableCell>
                                             <TableCell>{item.supplier}</TableCell>
@@ -593,7 +590,26 @@ const AddProduct = () => {
                                     )
                                 )) : (
                                     <TableRow>
-                                        <TableCell colSpan={10} align="center">No Product Data Found</TableCell>
+                                        <TableCell colSpan={9}>
+                                            <Box sx={{ width: "100%", display: "flex", flexDirection: "column",
+                                                    alignItems: "center", justifyContent: "center", py: 10, textAlign: "center",
+                                                    color: "#64748B"
+                                                }} 
+                                            >
+                                                {/* Icon */}
+                                                <Inventory2OutlinedIcon sx={{ fontSize: 100, color: "#cbd5e1", mb: 2 }} />
+
+                                                {/* Title */}
+                                                <Typography sx={{ fontSize: "22px", fontWeight: 600, color: "#1e293b" }} >
+                                                    No Products Found
+                                                </Typography>
+
+                                                {/* Subtitle */}
+                                                <Typography sx={{ mt: 1, fontSize: 14 }}>
+                                                    there aren’t any products added yet.
+                                                </Typography>
+                                            </Box>
+                                        </TableCell>
                                     </TableRow>
                                 )}
                             </TableBody>

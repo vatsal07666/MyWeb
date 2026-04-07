@@ -21,7 +21,7 @@ const Dashboard = () => {
 
     const dispatch = useDispatch();
 
-    const tokenProduct = "w4AkMdTjMm7CLvTY";
+    const tokenProduct = "DocAKBFPpGh4l7vo";
     const tokenCategory = "y5japrtJDM9NkJjU";
     const tokenSupplier = "6jA4ILnp672uVwAw";
     const tokenSales = "lwfog6Wx9g3tZrPp";
@@ -78,7 +78,7 @@ const Dashboard = () => {
         },
         {
             icon: <GrMoney />,
-            title: "sales",
+            title: "Sales",
             count: sales?.length,
             path: "/admin/sales",
         },

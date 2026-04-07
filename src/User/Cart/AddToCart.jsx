@@ -1,8 +1,9 @@
 import { CartContext } from "../../Context/CartProvider";
-import { Box, Button, Card, CardContent, Container, Grid, IconButton, Paper, Typography } from "@mui/material";
+import { Box, Button, Card, CardContent, Container, Divider, Grid, IconButton, Paper, Typography } from "@mui/material";
 import { useContext } from "react";
 import { FiPlus, FiMinus } from "react-icons/fi";
 import LoadRazorpay from "../../Payment/LoadRazorpay";
+import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
 
 const Cart = () => {
     const { cart, increaseQty, decreaseQty, removeFromCart } = useContext(CartContext);
@@ -75,20 +76,43 @@ const Cart = () => {
                                     <Grid item size={{xs: 12, sm: 6, md: 4}} key={item._id ?? index}
                                         sx={{display: "flex", justifyContent: "center"}}
                                     >
-                                        <Card sx={{ height: "100%", maxWidth: 345, borderRadius: 3, cursor: "pointer", 
-                                                transition: "0.3s", boxShadow: "0 6px 20px rgba(0,0,0,0.08)", flex: 1,
-                                                "&:hover": { boxShadow: "20px 20px rgba(0,0,0,0.15)" }, border: 1
+                                        <Card sx={{ cursor: "pointer", borderRadius: 3, width: "100%", height: "100%",
+                                                transition: "transform 0.35s ease, box-shadow 0.35s ease",
+                                                boxShadow: "0 6px 20px rgba(0,0,0,0.08)", position: "relative", 
+                                                overflow: "hidden", display: "flex", flexDirection: "column",
+                                                "&:hover": {
+                                                    transform: "translateY(-8px) scale(1.02)",
+                                                    boxShadow: "20px 20px 0px 0px rgba(0,0,0,0.05)"
+                                                },
                                             }}
                                         >
-                                            <CardContent>
-                                                <Typography variant="body2" sx={{ display: "inline-block", color: "#fff", 
-                                                        background: "#1e293b", px: 1, py: 0.2, borderRadius: 2, opacity: 0.9
-                                                    }}
-                                                >
-                                                    {item.category}
-                                                </Typography>
+                                            <CardContent sx={{ display: "flex", flexDirection: "column", flex: 1 }}>
+                                                <Box sx={{ width: "100%", position: "relative" }}>
+                                                    {item.productImage && (
+                                                        <img src={item.productImage} alt={item.productName}
+                                                            style={{ width: "100%", maxHeight: 200, objectFit: "contain",
+                                                                borderRadius: 6
+                                                            }}
+                                                        />
+                                                    )}
+    
+                                                    {/* Category Badge */}
+                                                    <Typography sx={{ position: "absolute", top: 0, left: 0, px: 1.5,
+                                                            py: 0.3, bgcolor: "rgba(0,0,0,0.5)", color: "#fff",
+                                                            borderRadius: 2, fontSize: 12
+                                                        }}
+                                                    >
+                                                        {item.category}
+                                                    </Typography>
+                                                </Box>
+                                                
+                                                <Divider sx={{ my: 1 }} />
 
-                                                <Typography variant="h6" fontWeight={600}>
+                                                <Typography variant="h6" fontWeight={600}sx={{ fontWeight: 600, flex: 1,
+                                                            minWidth: 0, whiteSpace: "nowrap", overflow: "hidden",
+                                                            textOverflow: "ellipsis"
+                                                        }} 
+                                                >
                                                     {item.productName}
                                                 </Typography>
 
@@ -113,12 +137,34 @@ const Cart = () => {
                                                     </IconButton>
                                                 </Typography>
 
-                                                <Typography sx={{ fontWeight: 600, mt: 2 }}>
-                                                    Price: ₹{item.sellingPrice} | Total: {itemTotal(item)}
-                                                </Typography>
+                                                <Box sx={{ display: "flex", gap: 1, mt: 2 }}>
+                                                    <Typography sx={{ fontWeight: 600 }}>Product:</Typography>
+                                                    <Typography variant="h6" sx={{ fontWeight: 600, fontSize: 15,
+                                                            color: "#4d4d4d"
+                                                        }} 
+                                                    >
+                                                        {item.productName}
+                                                    </Typography>
+                                                </Box>
+
+                                                <Box sx={{ mt: 1.5 }}>
+                                                    <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+                                                        <Typography sx={{ fontWeight: 600 }}> Price: </Typography>
+                                                        <Typography sx={{ color: "#1D4ED8", fontWeight: 600 }}> 
+                                                            ₹ {item.sellingPrice} 
+                                                        </Typography>
+                                                    </Box>
+
+                                                    <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+                                                        <Typography sx={{ fontWeight: 600 }}> Total Ammount: </Typography>
+                                                        <Typography sx={{ color: "#1D4ED8", fontWeight: 600 }}> 
+                                                            ₹ {itemTotal(item)} 
+                                                        </Typography>
+                                                    </Box>
+                                                </Box>
 
                                                 <Button onClick={() => removeFromCart(item._id)} 
-                                                    sx={{ textTransform: "none", color: "#1e293b", border: 1,
+                                                    sx={{ textTransform: "none", color: "#1e293b", border: 1, mt: 2,
                                                         borderRadius: 2, py: 0.5, px: 2, transition: "0.3s ease-in-out", 
                                                         "&:hover": { color: "#fff", background: "#ee0000" }
                                                     }}    
@@ -130,11 +176,30 @@ const Cart = () => {
                                     </Grid>
                                 ))
                             ) : (
-                                <Typography component={"span"} textAlign="center" width="100%" 
-                                    fontWeight={600}
+                                <Box sx={{ width: "100%", display: "flex", flexDirection: "column",
+                                        alignItems: "center", justifyContent: "center", py: 10, textAlign: "center",
+                                        color: "#64748B"
+                                    }}
                                 >
-                                    No Item Found in your Cart
-                                </Typography>
+                                    {/* Icon */}
+                                    <ShoppingCartOutlinedIcon sx={{ fontSize: 100, color: "#cbd5e1", mb: 2 }} />
+
+                                    {/* Title */}
+                                    <Typography sx={{ fontSize: "22px", fontWeight: 600, color: "#1e293b" }} >
+                                        No Products Found
+                                    </Typography>
+
+                                    {/* Subtitle */}
+                                    <Typography sx={{ mt: 1, fontSize: 14 }}>
+                                        there aren’t any products added yet in the Cart.
+                                    </Typography>
+
+                                    <Button variant="contained" sx={{ mt: 3, textTransform: "none" }}
+                                        onClick={() => window.history.back()}
+                                    >
+                                        ← Go Back
+                                    </Button>
+                                </Box>
                             )}
                         </Grid>
                     </Container>
@@ -163,12 +228,9 @@ const Cart = () => {
                         </Box>
                     </Container>
                 </Box>
-                
             </Box>
-            
         </>
     );
 };
-
 
 export default Cart;

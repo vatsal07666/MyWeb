@@ -18,7 +18,7 @@ root.render(
         <SnackbarProvider>
           <ContextProvider>
             <CartProvider>
-                <App />
+              <App />
             </CartProvider>
           </ContextProvider>
         </SnackbarProvider>

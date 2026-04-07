@@ -19,6 +19,7 @@ import { setCategory, addCategory, deleteCategory, updateCategory, setEditId, se
 } from "./CategorySlice";
 import { NavLink } from "react-router-dom/cjs/react-router-dom";
 import { MdOutlineViewInAr } from "react-icons/md";
+import CategoryOutlinedIcon from '@mui/icons-material/CategoryOutlined';
 
 const AddCategory = () => {
     const { list: categories = [], formValues, editId, openForm, deleteOpen, deleteId, searchItem, 
@@ -457,7 +458,26 @@ const AddCategory = () => {
                                 ))
                             ) : (
                                 <TableRow>
-                                    <TableCell colSpan={5} style={{textAlign: "center"}}>No Category Data Found</TableCell>
+                                    <TableCell colSpan={5}>
+                                        <Box sx={{ width: "100%", display: "flex", flexDirection: "column",
+                                                alignItems: "center", justifyContent: "center", textAlign: "center",
+                                                color: "#64748B", py: 5
+                                            }}
+                                        >
+                                            {/* Icon */}
+                                            <CategoryOutlinedIcon sx={{ fontSize: 100, color: "#cbd5e1", mb: 2 }} />
+
+                                            {/* Title */}
+                                            <Typography sx={{ fontSize: "22px", fontWeight: 600, color: "#1e293b" }} >
+                                                No Categories Found
+                                            </Typography>
+
+                                            {/* Subtitle */}
+                                            <Typography sx={{ mt: 1, fontSize: 14 }}>
+                                                there aren’t any category added yet.
+                                            </Typography>
+                                        </Box>
+                                    </TableCell>
                                 </TableRow>
                             )}
                         </TableBody>

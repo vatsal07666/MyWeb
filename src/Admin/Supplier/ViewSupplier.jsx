@@ -6,6 +6,7 @@ import { Box, Card, CardContent, CircularProgress, Grid, IconButton, InputBase, 
 import { IoIosArrowRoundBack } from 'react-icons/io';
 import { NavLink } from 'react-router-dom/cjs/react-router-dom';
 import SearchIcon from '@mui/icons-material/Search';
+import LocalShippingIcon from '@mui/icons-material/LocalShipping';
 
 const ViewSupplier = () => {
     const { list: suppliers = [], loading, searchItem } = useSelector((state) => state.supplierStore);
@@ -23,8 +24,12 @@ const ViewSupplier = () => {
 
     if(loading){
         return (
-            <Box sx={{ display: 'flex', justifyContent: 'center', mt: 5 }}>
-                <Typography><CircularProgress size={20} /> Loading Suppliers...</Typography>
+            <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: "center", flexDirection: "column", 
+                    mt: 5, gap: 1 
+                }}
+            >
+                <CircularProgress size={20} thickness={4} /> 
+                <Typography sx={{ fontSize: "16px", color: "#64748B" }}> Loading Suppliers... </Typography>
             </Box>
         );
     }
@@ -69,7 +74,7 @@ const ViewSupplier = () => {
 
                 {/* Search Field */}
                 <Box sx={{ position: 'relative', border: 1, borderRadius: 2, width: { xs: "100%", sm: "50%", md: "30%" }, 
-                        py: 0.5, my: 3, background: "#fff"
+                        py: 0.5, mb: 5, mt: {xs: 3, sm: 0}, background: "#fff"
                     }}
                 >
                     <InputBase name="search" placeholder="Search Supplier" value={searchItem ?? ""}
@@ -86,9 +91,14 @@ const ViewSupplier = () => {
                             <Grid item size={{xs: 12, sm: 6, md: 4}} key={item._id ?? index}
                                 sx={{display: "flex", justifyContent: "center"}}
                             >
-                                <Card sx={{ height: "100%", maxWidth: 345, borderRadius: 3, cursor: "pointer", 
-                                        transition: "0.3s", boxShadow: "0 6px 20px rgba(0,0,0,0.08)", flex: 1,
-                                        "&:hover": { boxShadow: "20px 20px rgba(0,0,0,0.15)" }, border: 1
+                                <Card sx={{ cursor: "pointer", borderRadius: 3, width: "100%", height: "100%",
+                                        transition: "transform 0.35s ease, box-shadow 0.35s ease",
+                                        boxShadow: "0 6px 20px rgba(0,0,0,0.08)", position: "relative", 
+                                        overflow: "hidden", flex: 1,
+                                        "&:hover": { 
+                                            transform: "translateY(-8px) scale(1.02)",
+                                            boxShadow: "20px 20px 0px 0px rgba(0,0,0,0.05)" 
+                                        },
                                     }}
                                 >
                                     <CardContent>
@@ -119,11 +129,24 @@ const ViewSupplier = () => {
                             </Grid>
                         ))
                     ) : (
-                        <Typography component={"span"} textAlign="center" width="100%" 
-                            fontWeight={600}
+                        <Box sx={{ width: "100%", display: "flex", flexDirection: "column",
+                                alignItems: "center", justifyContent: "center", py: 10, textAlign: "center",
+                                color: "#64748B"
+                            }} 
                         >
-                            No Suppliers Found
-                        </Typography>
+                            {/* Icon */}
+                            <LocalShippingIcon sx={{ fontSize: 100, color: "#cbd5e1", mb: 2 }} />
+
+                            {/* Title */}
+                            <Typography sx={{ fontSize: "22px", fontWeight: 600, color: "#1e293b" }} >
+                                No Suppliers Found
+                            </Typography>
+
+                            {/* Subtitle */}
+                            <Typography sx={{ mt: 1, fontSize: 14 }}>
+                                there aren’t any Supplier added yet.
+                            </Typography>
+                        </Box>
                     )}
                 </Grid>
             </Box>

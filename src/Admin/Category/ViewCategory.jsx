@@ -23,8 +23,12 @@ const ViewCategory = () => {
 
     if(loading){
         return (
-            <Box sx={{ display: 'flex', justifyContent: 'center', mt: 5 }}>
-                <Typography><CircularProgress size={20} /> Loading Categories...</Typography>
+            <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: "center", flexDirection: "column", 
+                    mt: 5, gap: 1 
+                }}
+            >
+                <CircularProgress size={20} thickness={4} /> 
+                <Typography sx={{ fontSize: "16px", color: "#64748B" }}> Loading Categories... </Typography>
             </Box>
         );
     }
@@ -69,7 +73,7 @@ const ViewCategory = () => {
 
                 {/* Search Field */}
                 <Box sx={{ position: 'relative', border: 1, borderRadius: 2, width: { xs: "100%", sm: "50%", md: "30%" }, 
-                        py: 0.5, my: 3, background: "#fff"
+                        py: 0.5, mb: 5, mt: {xs: 3, sm: 0}, background: "#fff"
                     }}
                 >
                     <InputBase name="search" placeholder="Search Categories" value={searchItem ?? ""}
@@ -80,27 +84,47 @@ const ViewCategory = () => {
                 </Box>
 
                 {/* Product Grid */}
-                <Grid container spacing={3} sx={{mb: {xs: 5, md: 0}}}>
+                <Grid container spacing={3} sx={{ pb: 5 }}>
                     {filteredCategory.length > 0 ? (
                         filteredCategory.map((item, index) => (
                             <Grid item size={{xs: 12, sm: 6, md: 4}} key={item._id ?? index}
                                 sx={{display: "flex", justifyContent: "center"}}
                             >
-                                <Card sx={{ height: "100%", maxWidth: 345, borderRadius: 3, cursor: "pointer", 
-                                        transition: "0.3s", boxShadow: "0 6px 20px rgba(0,0,0,0.08)", flex: 1,
-                                        "&:hover": { boxShadow: "20px 20px rgba(0,0,0,0.15)" }, border: 1
+                                <Card sx={{ cursor: "pointer", borderRadius: 3, width: "100%", height: "100%",
+                                        transition: "transform 0.35s ease, box-shadow 0.35s ease",
+                                        boxShadow: "0 6px 20px rgba(0,0,0,0.08)", position: "relative", 
+                                        overflow: "hidden", flex: 1,
+                                        "&:hover": { 
+                                            transform: "translateY(-8px) scale(1.02)",
+                                            boxShadow: "20px 20px 0px 0px rgba(0,0,0,0.05)" 
+                                        },
                                     }}
                                 >
-                                    <CardContent>
-                                        <Typography variant="span" sx={{ display: "inline-block", background: "#dbeafe", 
-                                                color: "#1d4ed8", px: 1, py: 0.2, borderRadius: 2, opacity: 0.9,
-                                                fontWeight: 600, mb: 1
+                                    {/* Top Visual Section (NEW - replaces image) */}
+                                    <Box sx={{ height: "100px", display: "flex", alignItems: "center",
+                                            justifyContent: "center", color: "#fff",
+                                            background: "linear-gradient(135deg, #3B82F6 0%, #1D4ED8 100%)",
+                                            fontSize: 36, fontWeight: 700
+                                        }}
+                                    >
+                                        {item.categoryName?.charAt(0)}
+                                    </Box>
+
+                                    <CardContent sx={{ px: 3, py: 2 }}>
+                                        {/* Category Name */}
+                                        <Typography sx={{ fontSize: "20px", fontWeight: 600, color: "#0F172A",
+                                                mb: 0.2
                                             }}
                                         >
                                             {item.categoryName}
-                                        </Typography> <br />
+                                        </Typography>
 
-                                        <Typography variant="bosy2" textAlign={"justify"}>
+                                        {/* Description */}
+                                        <Typography sx={{ fontSize: "14px", color: "#64748B", display: "-webkit-box",
+                                                WebkitLineClamp: 2,  WebkitBoxOrient: "vertical",
+                                                overflow: "hidden"
+                                            }}
+                                        >
                                             {item.description}
                                         </Typography>
                                     </CardContent>

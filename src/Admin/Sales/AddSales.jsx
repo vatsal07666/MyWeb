@@ -23,6 +23,7 @@ import SearchIcon from '@mui/icons-material/Search';
 import { FaEdit, FaEye } from "react-icons/fa";
 import jsPDF from "jspdf";
 import html2canvas from "html2canvas";
+import PaymentsIcon from '@mui/icons-material/Payments';
 
 const AddSales = () => {
     const { list: sales = [], formValues, openForm, itemDraft, editId, searchItem, loading, 
@@ -702,7 +703,26 @@ const AddSales = () => {
                                     })
                                 ) : (
                                     <TableRow>
-                                        <TableCell colSpan={10} align="center">No Sales Data Found</TableCell>
+                                        <TableCell colSpan={10}>
+                                            <Box sx={{ width: "100%", display: "flex", flexDirection: "column",
+                                                    alignItems: "center", justifyContent: "center", py: 10, textAlign: "center",
+                                                    color: "#64748B"
+                                                }} 
+                                            >
+                                                {/* Icon */}
+                                                <PaymentsIcon sx={{ fontSize: 100, color: "#cbd5e1", mb: 2 }} />
+
+                                                {/* Title */}
+                                                <Typography sx={{ fontSize: "22px", fontWeight: 600, color: "#1e293b" }} >
+                                                    No Sales Found
+                                                </Typography>
+
+                                                {/* Subtitle */}
+                                                <Typography sx={{ mt: 1, fontSize: 14 }}>
+                                                    there aren’t any sales added yet.
+                                                </Typography>
+                                            </Box>
+                                        </TableCell>
                                     </TableRow>
                                 )}
                             </TableBody>
