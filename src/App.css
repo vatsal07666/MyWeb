@@ -9,6 +9,7 @@
 /*---------- Login CSS ----------*/
 .login-box {
     margin-top: 20px;
+    padding: 15px;
     display: flex;
     flex-direction: column;
 }
