@@ -17,6 +17,11 @@ A modern and responsive personal portfolio website showcasing my projects, skill
 ## 🔗 Live Demo
 Live demo: <a href="https://my-web-chi-lake.vercel.app/" target="_blank">my-web-chi-lake.vercel.app</a>
 
+## 📚 Learn More
+
+* <a href="https://react.dev/" target="_blank">React Documentation</a> <br>
+* <a href="https://create-react-app.dev/" target="_blank">Create React App Documentation</a> <br>
+
 ## 📦 Installation
 
 ```bash
@@ -24,8 +29,3 @@ git clone https://github.com/vatsal07666/MyWeb.git
 cd MyWeb
 npm install
 npm start
-
-## 📚 Learn More
-
-* <a href="https://react.dev/" target="_blank">React Documentation</a> <br>
-* <a href="https://create-react-app.dev/" target="_blank">Create React App Documentation</a> <br>
