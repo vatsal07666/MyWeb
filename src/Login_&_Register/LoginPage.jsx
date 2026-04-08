@@ -8,12 +8,13 @@ import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 import { FaEye } from "react-icons/fa";
 import { FaEyeSlash } from "react-icons/fa";
 import { DataContext } from "../Context/ContextProvider";
-import { useContext } from "react";
+import { useContext, useRef } from "react";
 
 const LoginPage = () => {
     const {showPassword, setShowPassword} = useContext(DataContext);
     const { ShowSnackbar } = useSnackbar();
-    const history = useHistory();    
+    const history = useHistory();  
+    const formikRef = useRef();  
 
     const initialValues = {username: '', password: ''};
 
@@ -29,8 +30,9 @@ const LoginPage = () => {
     const token = "vZt3CGeByg2P1RDS";
 
     const postItem = (values, resetForm) => {
-        const initializeAdmin = () => {
+        const initializeUser = () => {
             const users = JSON.parse(localStorage.getItem("users")) || [];
+
             const adminExists = users.some((u) => u.username === "admin");
             if (!adminExists) {
                 users.push({
@@ -39,11 +41,22 @@ const LoginPage = () => {
                     email: "admin@example.com",
                     role: "admin",
                 });
-                localStorage.setItem("users", JSON.stringify(users));
             }
+            
+            const demoExists = users.some((u) => u.username === "DemoUser000");
+            if (!demoExists) {
+                users.push({
+                    username: "DemoUser000",
+                    password: "DEmo@#666",
+                    email: "demo@example.com",
+                    role: "user",
+                });
+            }
+            
+            localStorage.setItem("users", JSON.stringify(users));
         };
 
-        initializeAdmin();
+        initializeUser();
         
         const data = {username: values.username, password: values.password}
 
@@ -86,8 +99,10 @@ const LoginPage = () => {
         postItem(values, resetForm);
     }
 
+    const fillForm = (username, password) => formikRef.current.setValues({ username, password });
+
     return(
-        <Box className="login-container" sx={{ px: {xs: 2, md: 0}, 
+        <Box className="login-container" sx={{ display: "flex", flexDirection: "column", gap: 1, px: {xs: 2, md: 0}, 
                 background: "radial-gradient(circle at top left, #1e3a8a, #0f172a)"
             }}
         >
@@ -99,7 +114,8 @@ const LoginPage = () => {
                     Login
                 </Typography>
             
-                <Formik initialValues={initialValues}
+                <Formik innerRef={formikRef}
+                    initialValues={initialValues}
                     validationSchema={validationSchema}
                     onSubmit={handleSubmit}
                 >
@@ -147,6 +163,24 @@ const LoginPage = () => {
                     )}
                 </Formik>
             </Paper>
+
+            <Box sx={{ display: "flex", justifyContent: "center", flexDirection: "column" }}>
+                <Button variant="contained" onClick={() => fillForm("DemoUser000", "DEmo@#666")} 
+                    sx={{ mt: 3, textTransform: "none", background: "#ffffff", color: "#000", 
+                        borderRadius: 4 
+                    }}
+                >
+                    User Account :- Username: DemoUser000, Password: DEmo@#666
+                </Button>
+
+                <Button variant="contained" onClick={() => fillForm("admin", "Admin@666")} 
+                    sx={{ mt: 3, textTransform: "none", background: "#ffffff", color: "#000", 
+                        borderRadius: 4 
+                    }}
+                >
+                    Admin Account :- Username: admin, Password: Admin@666
+                </Button>
+            </Box>
         </Box>
     )
 }
