@@ -6,7 +6,6 @@ A modern and responsive personal portfolio website showcasing my projects, skill
 - Responsive design (mobile + desktop)
 - Built with modern technologies
 - Clean UI/UX
-- Project showcase section
 
 ## 🛠️ Tech Stack
 - HTML
@@ -15,12 +14,8 @@ A modern and responsive personal portfolio website showcasing my projects, skill
 - React.js
 - Material UI
 
-## 📂 Projects Included
-- E-Commerce Website
-- Portfolio Website
-
 ## 🔗 Live Demo
-(Add your deployed link here)
+Live demo: <a href="https://my-web-chi-lake.vercel.app/" target="_blank">my-web-chi-lake.vercel.app</a>
 
 ## 📦 Installation
 
@@ -29,3 +24,8 @@ git clone https://github.com/vatsal07666/MyWeb.git
 cd MyWeb
 npm install
 npm start
+
+## 📚 Learn More
+
+* <a href="https://react.dev/" target="_blank">React Documentation</a> <br>
+* <a href="https://create-react-app.dev/" target="_blank">Create React App Documentation</a> <br>
