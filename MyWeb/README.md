@@ -12,17 +12,12 @@ A modern and responsive personal portfolio website showcasing my projects, skill
 - HTML
 - CSS
 - JavaScript
-- React.js (if used)
-- Tailwind CSS (if used)
+- React.js
+- Material UI
 
 ## 📂 Projects Included
-- Todo List App
 - E-Commerce Website
 - Portfolio Website
-- QR Code Generator
-
-## 📸 Screenshots
-(Add screenshots here if you want)
 
 ## 🔗 Live Demo
 (Add your deployed link here)
