@@ -73,7 +73,7 @@ const RegisterPage = () => {
                 background: "radial-gradient(circle at top left, #1e3a8a, #0f172a)"
             }}
         >
-            <Paper elevation={10} sx={{ width: "100%", maxWidth: 380, p: { xs: 2.5, md: 4 }, borderRadius: 3, 
+            <Paper elevation={10} sx={{ width: "100%", maxWidth: 300, p: { xs: 2.5, md: 4 }, borderRadius: 3, 
                 background: "rgba(255, 255, 255, 0.9)", backdropFilter: "blur(10px)", padding: "40px",
                 boxShadow: "0 20px 40px rgba(0,0,0,0.2)",
             }}>

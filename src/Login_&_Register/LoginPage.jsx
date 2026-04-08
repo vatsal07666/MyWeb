@@ -107,9 +107,9 @@ const LoginPage = () => {
                 px: { xs: 2, sm: 0 }
             }}
         >
-            <Paper elevation={10} sx={{ width: "100%", maxWidth: 300, p: { xs: 1, sm: 4 }, borderRadius: 4, 
+            <Paper elevation={10} sx={{ width: "100%", maxWidth: 300, p: { xs: 2.5, sm: 4 }, borderRadius: 4, 
                     background: "rgba(255, 255, 255, 0.9)", border: "1px solid #e7ded9", 
-                    boxShadow: "0 10px 30px rgba(78,52,46,0.08)"
+                    padding: {xs: "40px", sm: "20px"}, boxShadow: "0 10px 30px rgba(78,52,46,0.08)"
                 }}
             >
                 <Typography variant="h5" align="center" fontWeight={700}>
