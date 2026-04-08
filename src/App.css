@@ -7,15 +7,6 @@
 
 /* ---------------- Login / Register Page CSS --------------- */
 /*---------- Login CSS ----------*/
-.login-container {
-    min-height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background: linear-gradient(135deg, #0f172a, #1e293b);
-    overflow: hidden;
-}
-
 .login-box {
     margin-top: 20px;
     display: flex;
