@@ -102,14 +102,16 @@ const LoginPage = () => {
     const fillForm = (username, password) => formikRef.current.setValues({ username, password });
 
     return(
-        <Box className="login-container" sx={{ display: "flex", flexDirection: "column", gap: 1, px: {xs: 2, md: 0}, 
-                background: "radial-gradient(circle at top left, #1e3a8a, #0f172a)"
+        <Box sx={{ minHeight: "100vh", display: "flex", alignItems: "center", justifyContent: "center",
+                flexDirection: "column", background: "radial-gradient(circle at top left, #1e3a8a, #0f172a)", 
+                px: { xs: 2, sm: 0 }
             }}
         >
-            <Paper elevation={10} sx={{ width: "100%", maxWidth: 380, p: { xs: 2.5, md: 4 }, borderRadius: 3,
-                background: "rgba(255, 255, 255, 0.9)", backdropFilter: "blur(10px)", padding: "40px",
-                boxShadow: "0 20px 40px rgba(0,0,0,0.2)",
-            }}>
+            <Paper elevation={10} sx={{ width: "100%", maxWidth: 300, p: { xs: 1, sm: 4 }, borderRadius: 4, 
+                    background: "rgba(255, 255, 255, 0.9)", border: "1px solid #e7ded9", 
+                    boxShadow: "0 10px 30px rgba(78,52,46,0.08)"
+                }}
+            >
                 <Typography variant="h5" align="center" fontWeight={700}>
                     Login
                 </Typography>
