@@ -98,7 +98,7 @@
 
 /* ---------------- Drawer Pages CSS --------------- */
 /*---------- Product File CSS ----------*/
-#productName, #sku, #category, #supplier, #stock, #costPrice, #sellingPrice, #search{
+#productName, #sku, #category, #supplier, #stock, #costPrice, #sellingPrice, #search, #productImage{
     padding: 12px 14px;
     border: 1px solid;
     border-radius: 10px;
