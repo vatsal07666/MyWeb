@@ -331,28 +331,30 @@ const AddProduct = () => {
                                     <Box sx={{ display: "flex", flexDirection: "column", gap: 1, mb: 3 }}>
                                         <label htmlFor="productImage" style={{fontWeight: 600}}>Product Image</label>
 
-                                        <input id='productImage' type="file"
-                                            onChange={(e) => {
-                                                const file = e.currentTarget.files[0];
-                                                if (file) {
-                                                    setFieldValue("productImage", file); // store actual file
-                                                    dispatch(setPreview(URL.createObjectURL(file)));
-                                                }
-                                            }}
-                                        />
+                                        <Box  id='productImage'>
+                                            <input type="file"
+                                                onChange={(e) => {
+                                                    const file = e.currentTarget.files[0];
+                                                    if (file) {
+                                                        setFieldValue("productImage", file);
+                                                        dispatch(setPreview(URL.createObjectURL(file)));
+                                                    }
+                                                }}
+                                            />
 
-                                        {/* Live Preview */}
-                                        {preview && (
-                                            <Box sx={{ mt: 1 }}>
-                                                <img src={preview}
-                                                    alt="Preview"
-                                                    style={{ width: 120, height: 120, objectFit: "contain",
-                                                        borderRadius: 8, border: "1px solid #ddd",
-                                                        
-                                                    }}
-                                                />
-                                            </Box>
-                                        )}
+                                            {/* Live Preview */}
+                                            {preview && (
+                                                <Box sx={{ mt: 1 }}>
+                                                    <img src={preview}
+                                                        alt="Preview"
+                                                        style={{ width: 120, height: 120, objectFit: "contain",
+                                                            borderRadius: 8, border: "1px solid #ddd",
+                                                            
+                                                        }}
+                                                    />
+                                                </Box>
+                                            )}
+                                        </Box>
 
                                         {errors.productImage && touched.productImage && (
                                             <div style={{ color: "#ff0000" }}>{errors.productImage}</div>
