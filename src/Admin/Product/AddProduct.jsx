@@ -448,11 +448,12 @@ const AddProduct = () => {
                 {/* Product Table */}
                 {!isMobile ? (
                     <TableContainer component={Paper} elevation={0} 
-                        sx={{ WebkitOverflowScrolling: 'touch', '&::-webkit-scrollbar': { height: '8px' },
+                        sx={{ WebkitOverflowScrolling: 'touch', 
+                            '&::-webkit-scrollbar': { width: "5px", height: '5px' },
                             '&::-webkit-scrollbar-track': { backgroundColor: '#f1f1f1' },
                             '&::-webkit-scrollbar-thumb': { backgroundColor: '#888', borderRadius: 4,
                                 '&:hover': { backgroundColor: '#555' },
-                            },
+                            }, maxHeight: 500
                         }}
                     >
                         <Table sx={{ borderCollapse: "separate", borderSpacing: 0 }}>
