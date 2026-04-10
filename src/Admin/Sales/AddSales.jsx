@@ -84,6 +84,7 @@ const AddSales = () => {
             if(res.status === 200 || res.status === 204){
                 dispatch(addSales(res.data.Data));
                 ShowSnackbar("Product Added Successfully !", "success");
+                dispatch(resetItemDraft());
                 handleRefresh();
             }
         })
@@ -150,6 +151,7 @@ const AddSales = () => {
         resetForm();
         dispatch(resetFormValues());
         dispatch(resetUIState());
+        dispatch(setEditId(null));
     }
 
     // Referesh Data
@@ -205,8 +207,10 @@ const AddSales = () => {
         dispatch(setOpenForm(true));
         dispatch(setEditId(item._id));
         dispatch(setFormValues({...item, date: item.date.split("T")[0]}));
+        
         // Pre-fill itemDraft for editing
         dispatch(resetItemDraft());
+
         const safeItems = Array.isArray(item.items)
             ? item.items
             : JSON.parse(item.items || "[]"); // converts into array if string
@@ -260,7 +264,7 @@ const AddSales = () => {
                         </Typography>
                     </Box>
                     
-                    <Button onClick={() => dispatch(setOpenForm(true))} 
+                    <Button onClick={() => { dispatch(setOpenForm(true)); dispatch(setEditId(null)); }} 
                         sx={{background: "linear-gradient(135deg, #2563eb, #1e40af)", color: "#fff", 
                             p: "8px 14px", borderRadius: 2, mt: {xs: 2, sm: 0}, whiteSpace: "none", 
                             textTransform: "none"
@@ -292,112 +296,101 @@ const AddSales = () => {
                             {({errors, touched, values, setFieldValue, isValid, dirty, resetForm}) => (
                                 <Form>
                                     {/* Add Item Form */}
-                                    <Box sx={{p: 3, mb: 3}}>
+                                    <Box>
                                         {/* Title & Add Button */}
-                                        <Box sx={{display:"flex", justifyContent:"space-between"}}>
-                                            <h3 style={{margin: 0}}>Sales Item</h3>
-                                            <Button variant="contained"
+                                        <Box sx={{ display: "flex", justifyContent: "space-between", mb: 2, 
+                                                alignItems: "center", gap: 1.5,
+                                            }}
+                                        >
+                                            <Typography variant="h6" fontWeight={600}>Sales Item</Typography>
+
+                                            {/* Add Button */}
+                                            <Button
+                                                variant="contained"
                                                 onClick={() => handleAddItem(values, { setFieldValue })}
-                                                sx={{ background: "linear-gradient(135deg, #2563eb, #1e40af)", 
-                                                    color: "#fff", fontSize: "14px", fontWeight: 600, 
-                                                    transition: "0.5s ease-in-out",
+                                                sx={{
+                                                    background: "linear-gradient(135deg, #2563eb, #1e40af)"
                                                 }}
                                             >
-                                                Add 
+                                                {isMobile ? "Add" : "Add Item"}
                                             </Button>
                                         </Box>
 
-                                        <Divider sx={{my:2}} />
+                                        {/* INPUT CARD */}
+                                        <Box sx={{ py: {xs: 1.5, sm: 2}, px: { xs: 0, sm: 1 }, mb: 2, 
+                                                border: "1px solid #eee", borderRadius: 2, display: "flex", 
+                                                justifyContent: "space-between", alignItems: "center", 
+                                                flexDirection: {xs: "column", sm: "row"}, gap: 2, 
+                                                flexWrap: "wrap", textAlign: "center"
+                                            }}
+                                        >
+                                            <Field id="product" name="product" placeholder="Product Name"
+                                                value={values.product || ""}
+                                            />
 
-                                        <Table>
-                                            <TableHead sx={{ 
-                                                "& .MuiTableCell-root": { fontWeight: 600, p: 1 }
-                                            }}>
-                                                <TableRow>
-                                                    <TableCell>Product</TableCell>
-                                                    <TableCell>Quantity</TableCell>
-                                                    <TableCell>Unit Price</TableCell>
-                                                    <TableCell>Total</TableCell>
-                                                    <TableCell>Actions</TableCell>
-                                                </TableRow>
-                                            </TableHead>
+                                            <Field id="quantity" name="quantity" type="number" placeholder="Quantity"
+                                                value={values.quantity || ""}
+                                            />
 
-                                            <TableBody>
-                                                <TableRow sx={{"& .MuiTableCell-root": { p: 1 }}}>
-                                                    {/* Product */}
-                                                    <TableCell>
-                                                        <Field name="product" type="text" placeholder="Enter Product" 
-                                                            value={values.product || ""}
-                                                            style={{ padding: "8px", border: "1px solid #ccc", borderRadius: "8px", 
-                                                                fontSize: "16px",
-                                                            }}
-                                                        />
-                                                    </TableCell>
+                                            <Field id="unitprice" name="unitprice" type="number" placeholder="Unit Price"
+                                                value={values.unitprice || ""}
+                                            />
 
-                                                    {/* Quantity */}
-                                                    <TableCell>
-                                                        <Field name="quantity" type="number" placeholder="Enter Quantity" 
-                                                            value={values.quantity || ""}
-                                                            style={{ padding: "8px", border: "1px solid #ccc", borderRadius: "8px", 
-                                                                fontSize: "16px",
-                                                            }}
-                                                        />
-                                                    </TableCell>
+                                            {/* Total */}
+                                            <Box sx={{ fontSize: "15px", fontWeight: 600, mt: 1 }}>
+                                                Total: ₹ {(values.quantity || 0) * (values.unitprice || 0)}
+                                            </Box>
+                                        </Box>
+                                            
+                                        {/* ITEM LIST */}
+                                        {itemDraft.map((it, idx) => (
+                                            <Box key={idx} 
+                                                sx={{ p: 2, mb: 1.5, border: "1px solid #eee",
+                                                    borderRadius: 2
+                                                }}
+                                            >
+                                                <Box sx={{ display: "flex", justifyContent: "space-between",
+                                                        alignItems: "center", gap: 1.5, textAlign: "center",
+                                                        flexDirection: { xs: "column", sm: "row" }    
+                                                    }}
+                                                >
+                                                    <Typography>
+                                                        <b>Product Name:</b> {it.product}
+                                                    </Typography>
 
-                                                    {/* Unit Price */}
-                                                    <TableCell>
-                                                        <Field name="unitprice" type="number" placeholder="Enter Unit Price"
-                                                            value={values.unitprice || ""} 
-                                                            style={{ padding: "8px", border: "1px solid #ccc", borderRadius: "8px", 
-                                                                fontSize: "16px",
-                                                            }}
-                                                        />
-                                                    </TableCell>
+                                                    <Typography>
+                                                        <b>Quantity:</b> {it.quantity}
+                                                    </Typography>
 
-                                                    {/* Total */}
-                                                    <TableCell>
-                                                        ₹ {(values.quantity || 0) * (values.unitprice || 0)}
-                                                    </TableCell>
+                                                    <Typography>
+                                                        <b>Unit Price:</b> ₹ {it.unitprice}
+                                                    </Typography>
 
-                                                    {/* Delete Action */}
-                                                    <TableCell> 
-                                                        <IconButton disabled> <RiDeleteBin6Line /> </IconButton>
-                                                    </TableCell>
-                                                </TableRow>
+                                                    <Typography>
+                                                        <b>Total Price:</b> ₹ {it.total}
+                                                    </Typography>
 
-                                                {/* List existing items */}
-                                                {itemDraft.map((it, idx) => (
-                                                    <TableRow key={idx}>
-                                                        <TableCell>{it.product}</TableCell>
-                                                        <TableCell>{it.quantity}</TableCell>
-                                                        <TableCell>{it.unitprice}</TableCell>
-                                                        <TableCell>₹ {it.total}</TableCell>
-                                                        <TableCell>
-                                                            <Tooltip title="Delete" sx={{ml:"1px"}}>
-                                                            <IconButton color="error" onClick={() => handleDeleteItem(idx)}>
-                                                                <RiDeleteBin6Line />
-                                                            </IconButton>
-                                                            </Tooltip>
-                                                        </TableCell>
-                                                    </TableRow>
-                                                ))}
-                                                
-                                                {/* Sub-Total Field */}
-                                                <TableRow>
-                                                    <TableCell colSpan={3} align="right" sx={{ fontSize: "16px" }}>
-                                                        <strong>Subtotal:</strong>
-                                                    </TableCell>
-                                                    <TableCell sx={{ fontSize: "16px" }}>
-                                                        <b>₹ {itemsSubtotal}</b>
-                                                    </TableCell>
-                                                </TableRow>
-                                            </TableBody>
-                                        </Table>
+                                                    <IconButton
+                                                        color="error"
+                                                        onClick={() => handleDeleteItem(idx)}
+                                                    >
+                                                        <RiDeleteBin6Line />
+                                                    </IconButton>
+                                                </Box>
+                                            </Box>
+                                        ))}
+
+                                        {/* SUBTOTAL */}
+                                        <Box sx={{ textAlign: { xs: "center", sm: "right"}, mt: 2, fontWeight: 700 }}>
+                                            Subtotal: ₹ {itemsSubtotal}
+                                        </Box>
                                     </Box>
+
+                                    <Divider sx={{ mt: 1, mb: 3 }} />
 
                                     {/* Customer Name & Mobile Number */}
                                     <Box sx={{ display: "flex", flexDirection: {xs: "column", sm: "row"}, 
-                                            gap: 3, mb: 3, p: 3
+                                            gap: 3, mb: 3
                                         }}
                                     >
                                         <Box sx={{display: "flex", flexDirection: "column", gap: 1, flex: 1}}>
@@ -417,7 +410,7 @@ const AddSales = () => {
 
                                     {/* Payment Method & Status, Date */}
                                     <Box sx={{ display: "flex", flexDirection: {xs: "column", sm: "row"}, 
-                                            gap: 3, mb: 3, p: 3, flexWrap: "wrap" 
+                                            alignItems: "center", gap: 3, flexWrap: "wrap" 
                                         }}
                                     >
                                         <Box sx={{display: "flex", flexDirection: "column", gap: 1, flex: 1}}>
@@ -539,7 +532,7 @@ const AddSales = () => {
                             '&::-webkit-scrollbar': { width: "5px", height: '5px' },
                             '&::-webkit-scrollbar-track': { backgroundColor: '#f1f1f1' },
                             '&::-webkit-scrollbar-thumb': { backgroundColor: '#888', borderRadius: 4,
-                                '&:hover': { backgroundColor: '#555' },
+                                '&:hover': { backgroundColor: '#555', cursor: "pointer" },
                             }, maxHeight: 500
                         }}
                     >
@@ -641,42 +634,6 @@ const AddSales = () => {
                                                             </IconButton>
                                                         </Tooltip>
 
-                                                        {/* Delete Button Dialog */}
-                                                        <Dialog open={deleteOpen} fullWidth onClose={() => dispatch(resetDeleteState())} 
-                                                            disableRestoreFocus
-                                                            slotProps={{
-                                                                backdrop: {
-                                                                    sx: { backgroundColor: "rgba(0,0,0,0.35)",
-                                                                        backdropFilter: "blur(4px)"
-                                                                    }
-                                                                }
-                                                            }}
-                                                        >
-                                                            <DialogTitle id="alert-dialog-title"> Confirm Delete By Clicking Delete! </DialogTitle>
-                                                            
-                                                            <DialogActions>
-                                                                <Button onClick={() => dispatch(resetDeleteState())} 
-                                                                    variant="contained" 
-                                                                    sx={{color: "#1e293b", background: "#fff", 
-                                                                        '&:hover': { boxShadow: "0 0 0 2px rgba(0, 0, 0, 0.5)" }
-                                                                    }}
-                                                                >
-                                                                    Cancle
-                                                                </Button>
-
-                                                                <Button variant="contained" className="agree-button" 
-                                                                    onClick={deleteData}
-                                                                    sx={{background: "#ef4444", color: "#fff", transition: "0.2s ease-in-out",
-                                                                        '&:hover': {background: "#fff", color: "#ff0000", 
-                                                                            boxShadow: "0 0 2px rgba(255, 0, 0, 1)"
-                                                                        }
-                                                                    }}
-                                                                >
-                                                                    Delete
-                                                                </Button>
-                                                            </DialogActions>    
-                                                        </Dialog>
-
                                                         {/* Edit Button */}
                                                         <Tooltip title="Edit" component={Paper}
                                                             slotProps={{
@@ -755,7 +712,7 @@ const AddSales = () => {
                                 <Box sx={{ display: "flex", justifyContent: "center", gap: 1, p: 2, mt: "auto" }}>
                                     <Button
                                         sx={{ background: "#fff", color: "#ef4444", border: 1, whiteSpace: "nowrap" }}
-                                        onClick={() => dispatch(setDeleteOpen(true))}
+                                        onClick={() => handleDelete(item)}
                                     >
                                         <RiDeleteBin6Line />&nbsp; Delete
                                     </Button>
@@ -771,6 +728,42 @@ const AddSales = () => {
                         ))}
                     </Box>
                 )}
+
+                {/* Delete Button Dialog */}
+                <Dialog open={deleteOpen} fullWidth onClose={() => dispatch(resetDeleteState())} 
+                    disableRestoreFocus
+                    slotProps={{
+                        backdrop: {
+                            sx: { backgroundColor: "rgba(0,0,0,0.35)",
+                                backdropFilter: "blur(4px)"
+                            }
+                        }
+                    }}
+                >
+                    <DialogTitle id="alert-dialog-title"> Confirm Delete By Clicking Delete! </DialogTitle>
+                    
+                    <DialogActions>
+                        <Button onClick={() => dispatch(resetDeleteState())} 
+                            variant="contained" 
+                            sx={{color: "#1e293b", background: "#fff", 
+                                '&:hover': { boxShadow: "0 0 0 2px rgba(0, 0, 0, 0.5)" }
+                            }}
+                        >
+                            Cancle
+                        </Button>
+
+                        <Button variant="contained" className="agree-button" 
+                            onClick={deleteData}
+                            sx={{background: "#ef4444", color: "#fff", transition: "0.2s ease-in-out",
+                                '&:hover': {background: "#fff", color: "#ff0000", 
+                                    boxShadow: "0 0 2px rgba(255, 0, 0, 1)"
+                                }
+                            }}
+                        >
+                            Delete
+                        </Button>
+                    </DialogActions>    
+                </Dialog>
             </Box>
 
             {/* Invoice Dialog */}

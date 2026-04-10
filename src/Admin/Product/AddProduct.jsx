@@ -332,15 +332,22 @@ const AddProduct = () => {
                                         <label htmlFor="productImage" style={{fontWeight: 600}}>Product Image</label>
 
                                         <Box  id='productImage'>
-                                            <input type="file"
-                                                onChange={(e) => {
-                                                    const file = e.currentTarget.files[0];
-                                                    if (file) {
-                                                        setFieldValue("productImage", file);
-                                                        dispatch(setPreview(URL.createObjectURL(file)));
-                                                    }
-                                                }}
-                                            />
+                                            {/* Custom Button */}
+                                            <Button variant="outlined" component="label">
+                                                Upload Image
+                                                <input
+                                                    hidden
+                                                    type="file"
+                                                    onChange={(e) => {
+                                                        const file = e.currentTarget.files[0];
+                                                        if (file) {
+                                                            setFieldValue("productImage", file);
+                                                            setFieldValue("fileName", file.name);
+                                                            dispatch(setPreview(URL.createObjectURL(file)));
+                                                        }
+                                                    }}
+                                                />
+                                            </Button>
 
                                             {/* Live Preview */}
                                             {preview && (
@@ -454,7 +461,7 @@ const AddProduct = () => {
                             '&::-webkit-scrollbar': { width: "5px", height: '5px' },
                             '&::-webkit-scrollbar-track': { backgroundColor: '#f1f1f1' },
                             '&::-webkit-scrollbar-thumb': { backgroundColor: '#888', borderRadius: 4,
-                                '&:hover': { backgroundColor: '#555' },
+                                '&:hover': { backgroundColor: '#555', cursor: "pointer" },
                             }, maxHeight: 500
                         }}
                     >
@@ -530,42 +537,6 @@ const AddProduct = () => {
                                                             <RiDeleteBin6Line />
                                                         </IconButton>
                                                     </Tooltip>
-
-                                                    {/* Delete Button Dialog */}
-                                                    <Dialog open={deleteOpen} fullWidth onClose={() => dispatch(resetDeleteState())} 
-                                                        disableRestoreFocus
-                                                        slotProps={{
-                                                            backdrop: {
-                                                                sx: { backgroundColor: "rgba(0,0,0,0.35)",
-                                                                    backdropFilter: "blur(4px)"
-                                                                }
-                                                            }
-                                                        }}
-                                                    >
-                                                        <DialogTitle id="alert-dialog-title"> Confirm Delete By Clicking Delete! </DialogTitle>
-                                                        
-                                                        <DialogActions>
-                                                            <Button onClick={() => dispatch(resetDeleteState())} 
-                                                                variant="contained" 
-                                                                sx={{color: "#1e293b", background: "#fff", 
-                                                                    '&:hover': { boxShadow: "0 0 0 2px rgba(0, 0, 0, 0.5)" }
-                                                                }}
-                                                            >
-                                                                Cancle
-                                                            </Button>
-
-                                                            <Button variant="contained" className="agree-button" 
-                                                                onClick={deleteData}
-                                                                sx={{background: "#ef4444", color: "#fff", transition: "0.2s ease-in-out",
-                                                                    '&:hover': {background: "#fff", color: "#ff0000", 
-                                                                        boxShadow: "0 0 2px rgba(255, 0, 0, 1)"
-                                                                    }
-                                                                }}
-                                                            >
-                                                                Delete
-                                                            </Button>
-                                                        </DialogActions>    
-                                                    </Dialog>
 
                                                     {/* Edit Button */}
                                                     <Tooltip title="Edit" component={Paper}
@@ -661,7 +632,7 @@ const AddProduct = () => {
                                 <Box sx={{ display: "flex", justifyContent: "center", gap: 1, p: 2, mt: "auto" }}>
                                     <Button
                                         sx={{ background: "#fff", color: "#ef4444", border: 1, whiteSpace: "nowrap" }}
-                                        onClick={() => dispatch(setDeleteOpen(true))}
+                                        onClick={() => handleDelete(item)}
                                     >
                                         <RiDeleteBin6Line />&nbsp; Delete
                                     </Button>
@@ -677,6 +648,42 @@ const AddProduct = () => {
                         ))}
                     </Box>
                 )}
+
+                {/* Delete Button Dialog */}
+                <Dialog open={deleteOpen} fullWidth onClose={() => dispatch(resetDeleteState())} 
+                    disableRestoreFocus
+                    slotProps={{
+                        backdrop: {
+                            sx: { backgroundColor: "rgba(0,0,0,0.35)",
+                                backdropFilter: "blur(4px)"
+                            }
+                        }
+                    }}
+                >
+                    <DialogTitle id="alert-dialog-title"> Confirm Delete By Clicking Delete! </DialogTitle>
+                    
+                    <DialogActions>
+                        <Button onClick={() => dispatch(resetDeleteState())} 
+                            variant="contained" 
+                            sx={{color: "#1e293b", background: "#fff", 
+                                '&:hover': { boxShadow: "0 0 0 2px rgba(0, 0, 0, 0.5)" }
+                            }}
+                        >
+                            Cancle
+                        </Button>
+
+                        <Button variant="contained" className="agree-button" 
+                            onClick={deleteData}
+                            sx={{background: "#ef4444", color: "#fff", transition: "0.2s ease-in-out",
+                                '&:hover': {background: "#fff", color: "#ff0000", 
+                                    boxShadow: "0 0 2px rgba(255, 0, 0, 1)"
+                                }
+                            }}
+                        >
+                            Delete
+                        </Button>
+                    </DialogActions>    
+                </Dialog>
             </Box>
         </>
     )
