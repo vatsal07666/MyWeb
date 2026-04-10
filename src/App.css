@@ -163,3 +163,13 @@ label[for="date"]{
     letter-spacing: 0.1cqmin;
     font-weight: 600;
 }
+
+#product, #quantity, #unitprice{
+    padding: 12px 14px;
+    border: 1px solid;
+    border-radius: 10px;
+    font-family: sans-serif;
+    font-size: small;
+    letter-spacing: 0.1cqmin;
+    flex-grow: 1;
+}
