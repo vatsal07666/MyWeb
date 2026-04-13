@@ -104,11 +104,7 @@ const LoginPage = () => {
     };
 
     return(
-        <Box sx={{ minHeight: "100vh", display: "flex", alignItems: "center", justifyContent: "center",
-                flexDirection: "column", background: "radial-gradient(circle at top left, #1e3a8a, #0f172a)", 
-                px: { xs: 2, sm: 0 }
-            }}
-        >
+        <Box className="login-container" sx={{ px: {xs: 4.5, md: 0} }}>
             <Paper elevation={10} sx={{ width: "100%", maxWidth: 300, borderRadius: 4, 
                     background: "rgba(255, 255, 255, 0.9)", border: "1px solid #e7ded9", 
                     padding: {xs: "10px", sm: "20px"}, boxShadow: "0 10px 30px rgba(78,52,46,0.08)"
@@ -125,14 +121,14 @@ const LoginPage = () => {
                 >
                     {({ errors, touched }) => (
                         <Form className="login-box">
-                            <label htmlFor="email">Email</label>
-                            <Field name="email" id="email" type="email" placeholder="Enter Email" />
+                            <label htmlFor="auth-email">Email</label>
+                            <Field name="email" id="auth-email" type="email" placeholder="Enter Email" />
                             {errors.email && touched.email && <div style={{color: "#ff0000", marginTop: "5px"}}>{errors.email}</div>}
                             <br /><br />
 
                             <Box sx={{ position: "relative", borderRadius: 5 }}>
                                 <label htmlFor="password">Password </label>
-                                <Field name="password" id="login-password" type={showPassword ? "text" : "password"}
+                                <Field name="password" id="password" type={showPassword ? "text" : "password"}
                                     placeholder="Enter Password"
                                 />
 
@@ -145,11 +141,8 @@ const LoginPage = () => {
                             {errors.password && touched.password && <div style={{color: "#ff0000", marginTop: "5px"}}>{errors.password}</div>}
                             <br />
 
-                            <Button type="submit" fullWidth size="large" variant="contained" className="login-button"
-                                sx={{ mt: 3, borderRadius: "12px",  background: "linear-gradient(135deg, #2563eb, #1e40af)",
-                                    p: "14px", fontWeight: 600, transition: "0.3s ease-in-out", 
-                                    "&:hover": { transform: "translateY(-2px)", boxShadow: "0 10px 20px rgba(37, 99, 235, 0.3)" }
-                                }}
+                            <Button type="submit" fullWidth size="large" variant="contained" 
+                                className="login-button"
                             >
                                 Log In
                             </Button>

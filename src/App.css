@@ -6,15 +6,26 @@
 }
 
 /* ---------------- Login / Register Page CSS --------------- */
-/*---------- Login CSS ----------*/
-.login-box {
+.login-container, .register-container {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background: radial-gradient(circle at top left, #1e3a8a, #0f172a);
+    overflow: hidden;
+}
+
+.login-box, .register-box {
     margin-top: 20px;
-    padding: 15px;
     display: flex;
     flex-direction: column;
 }
+.login-box label, .register-box label{
+  font-weight: bold;
+}
 
-#login-username, #login-password {
+#username, #auth-email, #password {
     width: 100%;
     padding: 10px;
     margin-top: 6px;
@@ -24,63 +35,9 @@
     box-sizing: border-box;
     transition: 0.3s ease-in-out;
 }
-#login-username:hover, #login-password:hover{
+#username:hover, #auth-email:hover, #password:hover{
     border-color: #2563eb;
     box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.2);
-}
-
-.login-box label{
-  font-weight: bold;
-}
-
-/*---------- Register CSS ----------*/
-.register-container {
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    background: linear-gradient(135deg, #0f172a, #1e293b);
-    overflow: hidden;
-}
-
-.register-box {
-    margin-top: 20px;
-    display: flex;
-    flex-direction: column;
-}
-
-#register-username, #register-email, #register-password {
-    width: 100%;
-    padding: 10px;
-    margin-top: 5px;
-    border: 1px solid #ccc;
-    border-radius: 6px;
-    font-size: 16px;
-    box-sizing: border-box;
-    transition: 0.3s ease-in-out;
-}
-#register-username:hover, #register-email:hover, #register-password:hover{
-    border-color: #2563eb;
-    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.2);
-}
-
-.register-box label{
-  font-weight: bold;
-}
-
-.router-link {
-    text-decoration: none;
-    color: #2563eb;
-    font-weight: 600;
-    transition: 0.3s ease-in-out;
-}
-
-.router-link:hover{
-    background: linear-gradient(135deg, #2563eb, #1e40af);
-    color: #fff;
-    padding: 5px;
-    border-radius: 5px;
 }
 
 .login-box .show-hide-button, .register-box .show-hide-button{
@@ -95,6 +52,33 @@
 .login-box .show-hide-button:hover, .register-box .show-hide-button:hover{
     background-color: transparent;
 }
+
+.login-box .login-button, .register-box .register-button{
+    margin-top: 1rem;
+    border-radius: 12px;
+    background: linear-gradient(135deg, #2563eb, #1e40af);
+    padding: 14px;
+    font-weight: 600;
+    transition: 0.3s ease-in-out;
+}
+.login-box .login-button:hover, .register-box .register-button:hover{
+    transform: translateY(-2px);
+    box-shadow: 0 10px 20px rgba(37, 99, 235, 0.3);
+}
+
+.router-link {
+    text-decoration: none;
+    color: #2563eb;
+    font-weight: 600;
+    transition: 0.3s ease-in-out;
+}
+.router-link:hover{
+    background: linear-gradient(135deg, #2563eb, #1e40af);
+    color: #fff;
+    padding: 5px;
+    border-radius: 5px;
+}
+
 
 /* ---------------- Drawer Pages CSS --------------- */
 /*---------- Product File CSS ----------*/
