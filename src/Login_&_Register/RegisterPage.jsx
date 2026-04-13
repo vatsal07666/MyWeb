@@ -14,53 +14,54 @@ const RegisterPage = () => {
     const history = useHistory();
     const { ShowSnackbar } = useSnackbar();
 
-    const initialValues = {username: '', email: '', password: ''};
+    const initialValues = { username: '', email: '', password: '' };
 
     const validationSchema = Yup.object({
         username: Yup.string().required("Enter Username*"),
         email: Yup.string().email("Invalid Email*").required("Enter Email*"),
-        password: Yup.string().required("Password is required*").max(8,"Password must be 8 characters")
+        password: Yup.string().required("Password is required*").min(8,"Password must be at least 8 characters")
                 .matches(/[A-Z]/, "Password must contain at least one uppercase character")
                 .matches(/[a-z]/, "Password must contain at least one lowercase character")
                 .matches(/\d/, "Password must contain at least one number")
                 .matches(/[!@#$%^&*()]/, "Password must contain at least one special character")
     })
 
-    const token = "5wI8xsf3DqDSmYTX";
+    const token = "maySLQ51e12jy2Q3";
 
     const postData = (values, resetForm) => {
         const data = {username: values.username, email: values.email, password: values.password}
 
-        axios.post("https://generateapi.techsnack.online/api/register", data, {
+        // Get existing users from localStorage
+        const users = JSON.parse(localStorage.getItem("users")) || [];
+        
+        // Check if username already exists
+        const userExists = users.some((u) => u.email === values.email);
+
+        if (userExists) {
+            ShowSnackbar("Email already exists!", "error");
+            return;
+        }
+
+        axios.post("https://generateapi.techsnack.online/api/login", data, {
             headers: { Authorization: token, "Content-Type": "application/json" }
         })
         .then((res) => {
             if(res.status === 200 || res.status === 204){
-                // Get existing users from localStorage
-                const users = JSON.parse(localStorage.getItem("users")) || [];
+                console.log("/* Register Data */");
+                console.log("POST response: ", res.data);
                 
-                // Check if username already exists
-                const userExists = users.some((u) => u.username === values.username);
+                // Add new user
+                users.push({ ...values, role: "user" });
+                localStorage.setItem("users", JSON.stringify(users));
 
-                if (userExists) {
-                    if(values.username === "admin") ShowSnackbar("Cannot Use Username admin !", "info");
-                    else ShowSnackbar("Username already exists!", "error");
-                } else {
-                    console.log("/* Register Data */");
-                    console.log("POST response: ", res.data);
-
-                    // Add new user
-                    users.push({ ...values, role: "user" });
-                    localStorage.setItem("users", JSON.stringify(users));
-    
-                    resetForm();
-                    history.push("/log-in");
-                    ShowSnackbar("Account Created Successfully!", "success");
-                }
+                resetForm();
+                history.push("/log-in");
+                ShowSnackbar("Account Created Successfully !", "success");
             }
         })
         .catch((err) => {
             console.error("POST error: ", err);
+            ShowSnackbar("Registration failed !", "error");
         })
     }
 
@@ -85,21 +86,21 @@ const RegisterPage = () => {
                     validationSchema={validationSchema}
                     onSubmit={handleSubmit}
                 >
-                    {({errors, touched}) => (
+                    {({ errors, touched }) => (
                         <>
                             <Form className="register-box">
-                                <label htmlFor="username">Username</label>
+                                <label htmlFor="register-username">Username</label>
                                 <Field name="username" id="register-username" placeholder="Enter Username" />
                                 {errors.username && touched.username && <div style={{color: "#ff0000", marginTop: "5px"}}>{errors.username}</div>}
                                 <br /><br />
 
-                                <label htmlFor="email">Email</label>
+                                <label htmlFor="register-email">Email</label>
                                 <Field name="email" id="register-email" type="email" placeholder="Enter Email" />
                                 {errors.email && touched.email && <div style={{color: "#ff0000", marginTop: "5px"}}>{errors.email}</div>}
                                 <br /><br />
 
                                 <Box sx={{ position: "relative", borderRadius: 5 }}>
-                                    <label htmlFor="password">Password </label>
+                                    <label htmlFor="register-password">Password </label>
                                     <Field name="password" id="register-password" type={showPassword ? "text" : "password"}
                                         placeholder="Enter Password"
                                     />
@@ -142,3 +143,4 @@ const RegisterPage = () => {
 }   
 
 export default RegisterPage;
+

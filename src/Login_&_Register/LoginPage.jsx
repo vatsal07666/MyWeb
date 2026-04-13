@@ -16,10 +16,10 @@ const LoginPage = () => {
     const history = useHistory();  
     const formikRef = useRef();  
 
-    const initialValues = {username: '', password: ''};
+    const initialValues = { email: '', password: '' };
 
     const validationSchema = Yup.object({
-        username: Yup.string().required("Username is Required*"),
+        email: Yup.string().email("Invalid Email*").required("Enter Email*"),
         password: Yup.string().required("Password is required*").min(8,"Password must be at least 8 characters")
                 .matches(/[A-Z]/, "Password must contain at least one uppercase character")
                 .matches(/[a-z]/, "Password must contain at least one lowercase character")
@@ -27,15 +27,15 @@ const LoginPage = () => {
                 .matches(/[!@#$%^&*()]/, "Password must contain at least one special character")
     })
 
-    const token = "vZt3CGeByg2P1RDS";
+    const token = "maySLQ51e12jy2Q3";
 
-    const postItem = (values, resetForm) => {
+    const getData = (values, resetForm) => {
         const initializeUser = () => {
-            const users = JSON.parse(localStorage.getItem("users")) || [];
+            const localUsers = JSON.parse(localStorage.getItem("users")) || [];
 
-            const adminExists = users.some((u) => u.username === "admin");
+            const adminExists = localUsers.some((u) => u.email === "admin@example.com");
             if (!adminExists) {
-                users.push({
+                localUsers.push({
                     username: "admin",
                     password: "Admin@666",
                     email: "admin@example.com",
@@ -43,9 +43,9 @@ const LoginPage = () => {
                 });
             }
             
-            const demoExists = users.some((u) => u.username === "DemoUser000");
+            const demoExists = localUsers.some((u) => u.email === "demo@example.com");
             if (!demoExists) {
-                users.push({
+                localUsers.push({
                     username: "DemoUser000",
                     password: "DEmo@#666",
                     email: "demo@example.com",
@@ -53,53 +53,55 @@ const LoginPage = () => {
                 });
             }
             
-            localStorage.setItem("users", JSON.stringify(users));
+            localStorage.setItem("users", JSON.stringify(localUsers));
         };
 
         initializeUser();
         
-        const data = {username: values.username, password: values.password}
-
-        axios.post("https://generateapi.techsnack.online/api/login", data, {
+        axios.get("https://generateapi.techsnack.online/api/login", {
             headers: {Authorization: token, "Content-Type": "application/json" }
         })
         .then((res) => {
             if(res.status === 200 || res.status === 201){
                 // Get registered users from localStorage
-                const users = JSON.parse(localStorage.getItem("users")) || [];
-                const user = users.find(
-                    (u) => u.username === values.username && u.password === values.password
+                const users = res.data?.Data;
+                const localUsers = JSON.parse(localStorage.getItem("users")) || [];
+                const allUsers = [...localUsers, ...users]
+                const user = allUsers.find(
+                    (u) => u.email === values.email && u.password === values.password
                 );
                 
                 if (user) {
-                    console.log("/* Login Data */");
-                    console.log("POST response: ", res.data);
-                    
                     // Successful login
                     localStorage.setItem("authToken", "demo-token"); // fake token
                     localStorage.setItem("role", user.role || "user");
                     ShowSnackbar("Login Successful !", "success");
-
                     resetForm();
+
                     // Redirect based on role
                     if (user.role === "admin") history.push("/admin");
                     else history.push("/");
                 } else {
-                    ShowSnackbar("Username or Password not Exists !", "info");
+                    ShowSnackbar("Email or Password not Exists !", "info");
                 }
             }
         })
         .catch((err) => {
-            console.error("POST error: ", err);
+            console.error("GET error: ", err);
             ShowSnackbar("Login Failed !", "error");
         })
     }
 
     const handleSubmit = (values, { resetForm }) => {
-        postItem(values, resetForm);
+        getData(values, resetForm);
     }
 
-    const fillForm = (username, password) => formikRef.current.setValues({ username, password });
+    const fillForm = (email, password) => {
+        if (!formikRef.current) return;
+
+        formikRef.current.setFieldValue("email", email);
+        formikRef.current.setFieldValue("password", password);
+    };
 
     return(
         <Box sx={{ minHeight: "100vh", display: "flex", alignItems: "center", justifyContent: "center",
@@ -121,11 +123,11 @@ const LoginPage = () => {
                     validationSchema={validationSchema}
                     onSubmit={handleSubmit}
                 >
-                    {({errors, touched}) => (
+                    {({ errors, touched }) => (
                         <Form className="login-box">
-                            <label htmlFor="username">Username </label>
-                            <Field name="username" id="login-username" placeholder="Enter Username" />
-                            {errors.username && touched.username && <div style={{color: "#ff0000", marginTop: "5px"}}>{errors.username}</div>}
+                            <label htmlFor="email">Email</label>
+                            <Field name="email" id="email" type="email" placeholder="Enter Email" />
+                            {errors.email && touched.email && <div style={{color: "#ff0000", marginTop: "5px"}}>{errors.email}</div>}
                             <br /><br />
 
                             <Box sx={{ position: "relative", borderRadius: 5 }}>
@@ -167,20 +169,20 @@ const LoginPage = () => {
             </Paper>
 
             <Box sx={{ display: "flex", justifyContent: "center", flexDirection: "column" }}>
-                <Button variant="contained" onClick={() => fillForm("DemoUser000", "DEmo@#666")} 
+                <Button variant="contained" onClick={() => fillForm("demo@example.com", "DEmo@#666")} 
                     sx={{ mt: 3, textTransform: "none", background: "#ffffff", color: "#000", 
                         borderRadius: 4 
                     }}
                 >
-                    User Account :- Username: DemoUser000, Password: DEmo@#666
+                    User Account :- email: demo@example.com, Password: DEmo@#666
                 </Button>
 
-                <Button variant="contained" onClick={() => fillForm("admin", "Admin@666")} 
+                <Button variant="contained" onClick={() => fillForm("admin@example.com", "Admin@666")} 
                     sx={{ mt: 3, textTransform: "none", background: "#ffffff", color: "#000", 
                         borderRadius: 4 
                     }}
                 >
-                    Admin Account :- Username: admin, Password: Admin@666
+                    Admin Account :- email: admin@example.com, Password: Admin@666
                 </Button>
             </Box>
         </Box>
@@ -188,3 +190,4 @@ const LoginPage = () => {
 }
 
 export default LoginPage
+
